@@ -3,8 +3,8 @@ import React from 'react';
 export default function LoadingBox(){
   return (
     <div>
-      <div>font awesome is used here</div>
-      <i className="fa fa-spinner fa-spin">Loading...</i>
+      <p>font awesome is used here</p>
+      <i className="fa fa-spinner fa-spin"/>Loading...
     </div>
   );
 };
