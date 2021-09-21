@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import data from "./data.js";
+import userRouter from "./routers/userRouter";
 
 
 const MongoURI = 'mongodb+srv://afzal:hZ9UBENMscge2Qx@authexpress.eh8os.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
@@ -15,6 +16,7 @@ mongoose
   })
   .catch((error) => {
     console.log(error);
+    console.log('DATABASE CONNECTION FAILED')
   });
 
 app.get("/api/products/:id", (req, res) => {
@@ -29,10 +31,14 @@ app.get("/api/products/:id", (req, res) => {
 app.get("/api/products", (req, res) => {
   res.send(data.products);
 });
+app.use('/api/users',userRouter)
 
 app.get("/", (req, res) => {
   res.send("Server is ready");
 });
+app.use((err,req,res,next)=>{
+  res.status(500).send({message: err.message})
+})
 const port = process.env.PORT || 5001;
 app.listen(port, () => {
   console.log(`Serve at http://localhost:${port}`);
