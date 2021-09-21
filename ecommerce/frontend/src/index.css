@@ -205,7 +205,6 @@ img.large {
 }
 .form label {
     margin: 1rem 0;
-    display: block;
 }
 /* Dropdown */
 .dropdown {
@@ -228,7 +227,6 @@ img.large {
     display: block;
 }
 /* Checkout Steps */
-
 .checkout-steps > div {
     border-top: 0.3rem #c0c0c0 solid;
     color: #c0c0c0;
@@ -236,7 +234,7 @@ img.large {
     padding: 1rem;
     font-weight: bold;
 }
-.checkout-steps > div.active{
+.checkout-steps > div.active {
     border-top-color: #f08000;
     color: #f08000;
 }
