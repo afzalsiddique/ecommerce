@@ -10,7 +10,7 @@ userRouter.get(
   expressAsyncHandler(async (req, res) => {
     // remove all users
     // await User.deleteMany({})
-    // add all users
+    // add all users from data.js
     const createdUsers = await User.insertMany(data.users);
     res.send({ createdUsers });
   })
