@@ -4,7 +4,8 @@ import data from "./data.js";
 import userRouter from "./routers/userRouter";
 
 
-const MongoURI = 'mongodb+srv://afzal:hZ9UBENMscge2Qx@authexpress.eh8os.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+// const MongoURI = 'mongodb+srv://afzal:hZ9UBENMscge2Qx@authexpress.eh8os.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const MongoURI = 'mongodb+srv://afzal:hZ9UBENMscge2Qx@authexpress.eh8os.mongodb.net/ecommerce_database?retryWrites=true&w=majority'
 const app = express();
 mongoose
   .connect(MongoURI, {
