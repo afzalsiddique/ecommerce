@@ -5,8 +5,6 @@ import userRouter from "./routers/userRouter";
 import productRouter from "./routers/productRouter";
 import dotenv from 'dotenv'
 
-// set up .env file later
-import {mongoURI} from "./EnvVariables";
 
 dotenv.config()
 const app = express();
@@ -14,7 +12,7 @@ const app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 mongoose
-  .connect(mongoURI, {
+  .connect(process.env.mongoURI || 'mongodb://localhost/ecommerce', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
