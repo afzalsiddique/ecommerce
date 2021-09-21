@@ -3,11 +3,16 @@ import mongoose from "mongoose";
 // import data from "./data.js";
 import userRouter from "./routers/userRouter";
 import productRouter from "./routers/productRouter";
+import dotenv from 'dotenv'
 
 // set up .env file later
 import {mongoURI} from "./EnvVariables";
 
+dotenv.config()
 const app = express();
+// parse json data in the body of request
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 mongoose
   .connect(mongoURI, {
     useNewUrlParser: true,
