@@ -39,7 +39,7 @@ function App() {
             {userInfo ? (
               <div className="dropdown">
                 <Link to="#">
-                  {userInfo.name} <i className="fa fa-caret-down"></i>{' '}
+                  {userInfo.name} <i className="fa fa-caret-down"/>{' '}
                 </Link>
                 <ul className="dropdown-content">
                   <li>

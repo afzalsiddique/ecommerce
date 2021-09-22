@@ -1,9 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
 // import data from "./data.js";
-import userRouter from "./routers/userRouter";
-import productRouter from "./routers/productRouter";
+import userRouter from "./routers/userRouter.js";
+import productRouter from "./routers/productRouter.js";
 import dotenv from 'dotenv'
+import orderRouter from "./routers/orderRouter.js";
 
 
 dotenv.config()
@@ -41,6 +42,7 @@ mongoose
 
 app.use('/api/users',userRouter)
 app.use('/api/products',productRouter)
+app.use('/api/orders',orderRouter)
 
 app.get("/", (req, res) => {
   res.send("Server is ready");
