@@ -2,3 +2,5 @@
 amazona/backend/EnvVariables.js
 
 amazona/.env
+
+ecommerce/.env

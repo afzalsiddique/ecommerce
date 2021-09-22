@@ -11,7 +11,7 @@ dotenv.config()
 const app = express();
 // parse json data in the body of request
 app.use(express.json())
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({extended: true}))
 mongoose
   .connect(process.env.mongoURI || 'mongodb://localhost/ecommerce', {
     useNewUrlParser: true,
@@ -40,14 +40,17 @@ mongoose
 //   res.send(data.products);
 // });
 
-app.use('/api/users',userRouter)
-app.use('/api/products',productRouter)
-app.use('/api/orders',orderRouter)
+app.use('/api/users', userRouter)
+app.use('/api/products', productRouter)
+app.use('/api/orders', orderRouter)
+app.get('/api/config/paypal', (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
+});
 
 app.get("/", (req, res) => {
   res.send("Server is ready");
 });
-app.use((err,req,res,next)=>{
+app.use((err, req, res, next) => {
   res.status(500).send({message: err.message})
 })
 const port = process.env.PORT || 5001;

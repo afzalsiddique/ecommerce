@@ -1,20 +1,49 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {Link} from 'react-router-dom';
-import {detailsOrder} from '../actions/orderActions';
+import Axios from 'axios';
+import { PayPalButton } from 'react-paypal-button-v2';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { detailsOrder } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
 export default function OrderScreen(props) {
   const orderId = props.match.params.id;
+  const [sdkReady, setSdkReady] = useState(false);
   const orderDetails = useSelector((state) => state.orderDetails);
-  const {order, loading, error} = orderDetails;
+  const { order, loading, error } = orderDetails;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(detailsOrder(orderId));
-  }, [dispatch, orderId]);
+    const addPayPalScript = async () => {
+      const { data } = await Axios.get('/api/config/paypal');
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
+      script.async = true;
+      script.onload = () => {
+        setSdkReady(true);
+      };
+      document.body.appendChild(script);
+    };
+    if (!order) {
+      dispatch(detailsOrder(orderId));
+    } else {
+      if (!order.isPaid) {
+        if (!window.paypal) {
+          addPayPalScript();
+        } else {
+          setSdkReady(true);
+        }
+      }
+    }
+  }, [dispatch, order, orderId, sdkReady]);
+
+  const successPaymentHnadler = () => {
+    // TODO: dispatch pay order
+  };
+
   return loading ? (
-    <LoadingBox/>
+    <LoadingBox></LoadingBox>
   ) : error ? (
     <MessageBox variant="danger">{error}</MessageBox>
   ) : (
@@ -27,7 +56,7 @@ export default function OrderScreen(props) {
               <div className="card card-body">
                 <h2>Shipping</h2>
                 <p>
-                  <strong>Name:</strong> {order.shippingAddress.fullName} <br/>
+                  <strong>Name:</strong> {order.shippingAddress.fullName} <br />
                   <strong>Address: </strong> {order.shippingAddress.address},
                   {order.shippingAddress.city},{' '}
                   {order.shippingAddress.postalCode},
@@ -69,7 +98,7 @@ export default function OrderScreen(props) {
                             src={item.image}
                             alt={item.name}
                             className="small"
-                          />
+                          ></img>
                         </div>
                         <div className="min-30">
                           <Link to={`/product/${item.product}`}>
@@ -122,6 +151,18 @@ export default function OrderScreen(props) {
                   </div>
                 </div>
               </li>
+              {!order.isPaid && (
+                <li>
+                  {!sdkReady ? (
+                    <LoadingBox></LoadingBox>
+                  ) : (
+                    <PayPalButton
+                      amount={order.totalPrice}
+                      onSuccess={successPaymentHnadler}
+                    ></PayPalButton>
+                  )}
+                </li>
+              )}
             </ul>
           </div>
         </div>
